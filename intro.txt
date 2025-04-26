@@ -1,0 +1,36 @@
+a web crawler is a program which traverses the web automatically by downloading web pages and links from one page to another . it is used to index the web for search engines , collect data for research or monitor websites for changes. 
+
+the approach ->
+requirements - core entities - api - data flow - high level design - deep dives
+ 
+pS-> A WC is to extract a data from web site and store for trainng llm. it can run for 5 days.
+
+Functional requirements ->
+crawl the full website start from seed url, extract text data from thema and store.
+
+Scale -> how many web pages?
+
+Non Functional requirements ->
+no faults , politeness towards robots.txt , scalability , efficient .  
+
+scrapy shell ->
+>>> response 
+<200 https://quotes.toscrape.com/>
+>>> response.css("h1")
+[<Selector query='descendant-or-self::h1' data='<h1>\n                    <a href="/" ...'>]
+>>> response.css("h3")
+[]
+>>> response.css("h3").get()
+>>> response.css("a")       
+[<Selector query='descendant-or-self::a' data='<a href="/" style="text-decoration: n...'>, <Selector query='descendant-or-self::a' data='<a href="/login">Login</a>'>, <Selector query='descendant-or-self::a' data='<a href="/author/Albert-Einstein">(ab...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/change/page...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/deep-though...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/thinking/pa...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/world/page/...'>, <Selector query='descendant-or-self::a' data='<a href="/author/J-K-Rowling">(about)...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/abilities/p...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/choices/pag...'>, <Selector query='descendant-or-self::a' data='<a href="/author/Albert-Einstein">(ab...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/inspiration...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/life/page/1...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/live/page/1...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/miracle/pag...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/miracles/pa...'>, <Selector query='descendant-or-self::a' data='<a href="/author/Jane-Austen">(about)...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/aliteracy/p...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/books/page/...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/classic/pag...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/humor/page/...'>, <Selector query='descendant-or-self::a' data='<a href="/author/Marilyn-Monroe">(abo...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/be-yourself...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/inspiration...'>, <Selector query='descendant-or-self::a' data='<a href="/author/Albert-Einstein">(ab...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/adulthood/p...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/success/pag...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/value/page/...'>, <Selector query='descendant-or-self::a' data='<a href="/author/Andre-Gide">(about)</a>'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/life/page/1...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/love/page/1...'>, <Selector query='descendant-or-self::a' data='<a href="/author/Thomas-A-Edison">(ab...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/edison/page...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/failure/pag...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/inspiration...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/paraphrased...'>, <Selector query='descendant-or-self::a' data='<a href="/author/Eleanor-Roosevelt">(...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/misattribut...'>, <Selector query='descendant-or-self::a' data='<a href="/author/Steve-Martin">(about...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/humor/page/...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/obvious/pag...'>, <Selector query='descendant-or-self::a' data='<a class="tag" href="/tag/simile/page...'>, <Selector query='descendant-or-self::a' data='<a href="/page/2/">Next <span aria-hi...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 28px...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 26px...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 26px...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 24px...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 22px...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 14px...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 10px...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 8px"...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 8px"...'>, <Selector query='descendant-or-self::a' data='<a class="tag" style="font-size: 6px"...'>, <Selector query='descendant-or-self::a' data='<a href="https://www.goodreads.com/qu...'>, <Selector query='descendant-or-self::a' data='<a class="zyte" href="https://www.zyt...'>]
+>>> response.css("a").get()
+'<a href="/" style="text-decoration: none">Quotes to Scrape</a>'
+>>> response.css("a::text").get()
+'Quotes to Scrape'
+>>> response.css("a::text").getAll()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'SelectorList' object has no attribute 'getAll'. Did you mean: 'getall'?
+>>> response.css("a::text").getall()
+['Quotes to Scrape', 'Login', '(about)', 'change', 'deep-thoughts', 'thinking', 'world', '(about)', 'abilities', 'choices', '(about)', 'inspirational', 'life', 'live', 'miracle', 'miracles', '(about)', 'aliteracy', 'books', 'classic', 'humor', '(about)', 'be-yourself', 'inspirational', '(about)', 'adulthood', 'success', 'value', '(about)', 'life', 'love', '(about)', 'edison', 'failure', 'inspirational', 'paraphrased', '(about)', 'misattributed-eleanor-roosevelt', '(about)', 'humor', 'obvious', 'simile', 'Next ', 'love', 'inspirational', 'life', 'humor', 'books', 'reading', 'friendship', 'friends', 'truth', 'simile', 'GoodReads.com', 'Zyte']
+>>>

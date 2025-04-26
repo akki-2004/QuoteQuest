@@ -1,0 +1,8 @@
+body {
+  background: linear-gradient(to bottom right, #e0f7fa, #e0eafc);
+  min-height: 100vh;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
